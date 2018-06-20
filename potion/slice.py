@@ -17,4 +17,18 @@ class Slice(Database):
             read = pd.read_csv(file, index_col=0).filter(regex="Date|Symbol|Log Returns")
             df = pd.concat([df, read])
         return df.reset_index(drop=True)
+
+    def symbol(self, symbol):
+        read = self.data.query(f'Symbol == "{symbol}"')
+        read.columns = ['date', 'symbol', 'return']
+        df = read.copy()
+        df['date'] = pd.to_datetime(read['date'], format='%d-%b-%Y')
+        df['return'] = read['return'].apply(float)
+        df['gross_return'] = 1 + df['return']
+        df = df.set_index('date').sort_index()
+        df.iloc[0,2] = 1
+        df['cumulative_return'] = df['gross_return'].cumprod()
+        return df
+
+
         

@@ -50,6 +50,8 @@ class Database:
                 print (str(e))
                 pass
             current_date += timedelta(days=1)
+
+# https://nseindia.com/marketinfo/companyTracker/compInfo.jsp?symbol=MINDTREE&series=EQ
             
             
 
